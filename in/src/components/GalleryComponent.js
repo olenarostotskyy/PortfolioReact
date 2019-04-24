@@ -57,6 +57,7 @@ render() {
             <div className="row">
                 {menu}
             </div>
+            
             <ItemDetail item={this.state.selectedItem}/>
         </div>
     );

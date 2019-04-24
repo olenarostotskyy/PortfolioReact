@@ -33,7 +33,7 @@ class GalleryDetail extends Component {
     }
 
 
-    renderComments(comments) {
+   renderComments(comments) {
         if (comments != null)
             return (
                 <div className="col-sm-12 col-md-5 m-1">
