@@ -2,20 +2,26 @@ import React, { Component } from 'react';
 import GalleryDetail from './GalleryDetailComponents';
 import Menu from './GalleryComponent';
 import Home from './HomeComponent';
-import { ITEMS } from '../shared/items';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';//imported Header and Footer into MainComponent.
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Contact from './ContactComponent';
+import { connect } from 'react-redux';
+//cut out ITEMS import because our main component will not get state from redux store. Moved to reducer.js.
+
+const mapStateToProps = state => {//obtains the state as a parameter. Maps the Redux Store's state into props that will become available to my component.
+    return {
+      items: state.items//now available as props to MainComponent.
+    }
+}
 
 class Main extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-        items: ITEMS,
-    };//removed selectedItem
-  }
+    //removed selectedItem.
+  }//removed state items: ITEMS, from main component, and into redux reducer.js.
+//removed this.state = { because it's in redux reducer.js now.
 
   onItemSelect(itemId) {
     this.setState({ selectedItem: itemId});
@@ -33,7 +39,7 @@ class Main extends Component {
           <Header />
         <Switch>
             <Route path="/home" component={HomePage} />
-            <Route exact path="/gallery" render={() => <Menu item={this.state.items} />} />
+            <Route exact path="/gallery" render={() => <Menu item={this.props.items} />} />
             <Route exact path='/contactus' component={Contact} />
             <Redirect to="/home" />
         </Switch>
@@ -43,4 +49,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default (connect(mapStateToProps)(Main));//connecting the props in MainComponent. Wrapped around (Main), connect takes mapStateToProps as one of the parameters here.
