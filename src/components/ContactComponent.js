@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col, FormFeedback } from 'reactstrap';
 import { Link } from 'react-router-dom';
-//means for medium to extra large screen size of this label will occupy two columns in this row.
+//md means for medium to extra large screen size of this label will occupy two columns in this row.
 //htmlFor, because "for" alone would be confused with JavaScript's for.
 //turned function Contact component into a class component.
+
+
 class Contact extends Component {//need state in component, so put constructor.
 
     constructor(props) {
@@ -14,10 +16,16 @@ class Contact extends Component {//need state in component, so put constructor.
             email: '',
             subject: '',
             agree: false,
-            message: ''
+            message: '',
+            touched: {  //keep track if a field is touched or not. Store a boolin value to indicate if that form value has been touched or not.
+                name: false,
+                email: false,
+                subject: false
+            }
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
     }
 
     handleInputChange(event) {//implementing 2 diff handlers that will help change the state of compenent to gather info submitted.
@@ -36,8 +44,38 @@ class Contact extends Component {//need state in component, so put constructor.
         event.preventDefault();//to make use of this handleSubmit, go to form and do Form onsubmit.
     }
 
+    handleBlur = (field) => () => {
+        this.setState({
+            touched: { ...this.state.touched, [field]: true }//if that state is touched, I'm gonna modify that field and set to true. To track which input box has been modified.
+        });
+    }
+
+    validate(name, email, subject) {
+        const errors = {//JavaScript ojbect called errors, which contains the message corresponding to the 3 values. Will be sent to error message.
+            name: '',
+            email: '',
+            subject: ''
+        };
+
+        if (this.state.touched.name && name.length < 3)
+            errors.name = 'Name should be >= 3 characters';
+        else if (this.state.touched.name && name.length > 40)
+            errors.name = 'Name should be >= 40 characters';
+
+        if (this.state.touched.email && email.split('').filter(x => x === '@').length !== 1)
+            errors.email = 'Email should contain a @';
+
+        if (this.state.touched.subject && subject.length < 3)
+            errors.subject = 'Subject should be >= 3 characters';
+        else if (this.state.touched.subject && subject.length > 40)
+            errors.subject = 'Subject should be >= 15 characters';
+
+        return errors;
+    }
+
         render() {//implementing controlled form in bottom div.
-        return (
+            const errors = this.validate(this.state.name, this.state.email, this.state.subject);
+            return (
             <div className="container">
                 <div className="row">
                     <Breadcrumb>
@@ -87,14 +125,22 @@ class Contact extends Component {//need state in component, so put constructor.
                                 <Input type="text" id="name" name="name"
                                     placeholder="Name"
                                     value={this.state.name}
+                                    valid={errors.name === ''}
+                                    invalid={errors.name !== ''}
+                                    onBlur={this.handleBlur('name')}//indicate the field we are validating. Invoke the onBlur.
                                     onChange={this.handleInputChange} />
+                                <FormFeedback>{errors.name}</FormFeedback>
                             </Col>
                             <Label htmlFor="email" md={2}>Email</Label>
                             <Col md={10}>
                                 <Input type="text" id="email" name="email"
                                     placeholder="Email"
                                     value={this.state.email}
+                                    valid={errors.email === ''}
+                                    invalid={errors.email !== ''}
+                                    onBlur={this.handleBlur('email')}
                                     onChange={this.handleInputChange} />
+                                    <FormFeedback>{errors.email}</FormFeedback>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -103,7 +149,11 @@ class Contact extends Component {//need state in component, so put constructor.
                                     <Input type="text" id="subject" name="subject"
                                         placeholder="Subject"
                                         value={this.state.subject}
+                                        valid={errors.subject === ''}
+                                        invalid={errors.subject !== ''}
+                                        onBlur={this.handleBlur('subject')}
                                         onChange={this.handleInputChange} />
+                                    <FormFeedback>{errors.subject}</FormFeedback>
                                 </Col>
                         </FormGroup>
                         <FormGroup row>
