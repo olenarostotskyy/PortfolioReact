@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GalleryDetail from './GalleryDetailComponents';
 import Menu from './GalleryComponent';
 import Home from './HomeComponent';
+import About from './AboutComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';//imported Header and Footer into MainComponent.
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
