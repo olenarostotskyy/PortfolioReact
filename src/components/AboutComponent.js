@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 function About(props) {
 
-    const leaders = props.leaders.map((leader) => {
+    const owner = props.owner.map((owner) => {
         return (
-            <p>Leader {leader.name}</p>
+            <p>Owner {owner.name}</p>
         );
     });
 
@@ -62,11 +62,11 @@ function About(props) {
             </div>
             <div className="row row-content">
                 <div className="col-12">
-                    <h2>Corporate Leadership</h2>
+                    <h2>Chief Floral Designer</h2>
                 </div>
                 <div className="col-12">
                     <Media list>
-                        {leaders}
+                        {owner}
                     </Media>
                 </div>
             </div>
