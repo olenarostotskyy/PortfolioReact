@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
+import { Loading } from './LoadingComponent';
+import { Link } from 'react-router-dom';
 //GalleryComponent and GalleryDetailComponent purely work on the props they are passed into.
 //They are not maintaining any local state, so they are good candidates for being turned into functional components.
 //cleaned up code that we don't need anymore.
@@ -26,14 +28,34 @@ import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 
     const Menu = (props) => {
 
-        const menu = props.item.map((item) => {//props.item.map, because props is coming in a parameter for this function.
+        const menu = props.items.items.map((item) => {
             return (
                 <div key={item.id} className="col-12 col-md-5 m-1">
                     <RenderMenuItem item={item} />
                 </div>//div will construct a list of all gallery items
         );
     });//took out m-1, that meant one unit margin all around in here. So by doing this, what I am doing to this div is, for the extra small to small screen sizes,
-                
+    if (props.items.isLoading) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if (props.items.errMess) {
+        return(
+            <div className="container">
+                <div className="row"> 
+                    <div className="col-12">
+                        <h4>{props.items.errMess}</h4>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    else      
     return (
         <div className="container">
             <div className="row">

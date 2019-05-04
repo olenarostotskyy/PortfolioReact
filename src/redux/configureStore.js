@@ -1,6 +1,9 @@
-import {createStore, combineReducers} from 'redux';//allows us to create the redux store.
+import {createStore, combineReducers, applyMiddleware } from 'redux';//allows us to create the redux store.
 import { Items } from './items';
 import { Owner } from './owner';
+import { Comments } from './comments';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
 
 export const ConfigureStore = () => {
@@ -9,8 +12,10 @@ export const ConfigureStore = () => {
         //initialState, // our initialState
         combineReducers({
             items: Items,
-            owner: Owner
-        })
+            owner: Owner,
+            comments: Comments
+        }),
+        applyMiddleware(thunk, logger)
     );
 
     return store;
