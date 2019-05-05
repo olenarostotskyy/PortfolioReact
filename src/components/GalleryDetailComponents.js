@@ -24,10 +24,11 @@ function RenderItem({ item }) {//get the item in form of props here, so enclose 
             </div>
         );
     }
-    else
+    else {
         return (
             <div></div>//empty div
         );
+    }
 }
 
 function RenderComments({ comments, addComment, itemId }) {//Again, braces in parameter for {comments}
@@ -154,7 +155,7 @@ const GalleryDetail = (props) => {
             <div class="container">
                 <div className="row">
                     <Breadcrumb>
-                        <BreadcrumbItem><Link to='/Gallery'>Gallery</Link></BreadcrumbItem>
+                        <BreadcrumbItem><Link to='/gallery'>Gallery</Link></BreadcrumbItem>
                         <BreadcrumbItem active>{props.item.name}</BreadcrumbItem>
                     </Breadcrumb>
                     <div className="col-12">

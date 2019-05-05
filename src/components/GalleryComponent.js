@@ -15,14 +15,17 @@ import { Link } from 'react-router-dom';
 //then return a view here.
 //in Card onClick, removed this.props.onClick, and just can be .onClick, bc onClick is being recieved as props in RenderMenuItem.
 
+
     function RenderMenuItem({ item, onClick }) {
         return(
             <Card>
+              <Link to={`/menu/${item.id}`} >
               <CardImg width="100%" src={item.image} alt={item.name} />
                 <CardImgOverlay>
                     <CardTitle>{item.name}</CardTitle>
                 </CardImgOverlay>
-            </Card>//Reactstrap card format being rendered in the view here.
+              </Link>
+            </Card>
         );
     }
 
@@ -35,6 +38,7 @@ import { Link } from 'react-router-dom';
                 </div>//div will construct a list of all gallery items
         );
     });//took out m-1, that meant one unit margin all around in here. So by doing this, what I am doing to this div is, for the extra small to small screen sizes,
+
     if (props.items.isLoading) {
         return(
             <div className="container">
