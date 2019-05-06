@@ -58,13 +58,12 @@ class Main extends Component {
     );
   }
 
-
     return (
       <div>
           <Header />
         <Switch>
             <Route path="/home" component={HomePage} />
-            <Route exact path="/gallery" render={() => <Menu item={this.props.items} />} />
+            <Route exact path="/gallery" render={() => <Menu items={this.props.items} />} />
             <Route path="/gallery/:itemId" component={ItemWithId} />
             <Route exact path='/contactus' component={Contact} />
             <Redirect to="/home" />
